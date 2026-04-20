@@ -980,7 +980,7 @@ function sendResults(score, levelScores) {
     status.textContent = "Results sent to your teacher successfully!";
   }).catch(() => {
     status.className = "email-status show failed";
-    status.textContent = "⚠️ Could not send results. Please contact your teacher.";
+    status.textContent = "The supervisor will contact you to discuss your result.";
   });
 }
 
