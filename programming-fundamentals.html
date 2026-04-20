@@ -517,7 +517,7 @@
       <label>Phone Number</label>
       <input type="tel" id="student-phone" placeholder="Enter your phone number" />
     </div>
-    <button class="btn-start" onclick="startExam()">Start Exam &rarr;</button>
+    <button type="button" class="btn-start" onclick="startExam()">Start Exam &rarr;</button>
   </div>
 </div>
 
@@ -961,8 +961,7 @@ function sendResults(score, levelScores) {
     const total = questions.filter(q => q.level == lvl).length;
     const got   = levelScores[lvl] || 0;
     return info.label + ": " + got + "/" + total;
-  }).join("
-");
+  }).join("\n");
 
   const status = document.getElementById("email-status");
   status.className = "email-status show sending";
