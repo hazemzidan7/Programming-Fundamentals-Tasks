@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programming Fundamentals Task 1 | eduzah</title>
+  <style>
+    :root {
+      --primary:   #3D1B4E;
+      --accent:    #E8186D;
+      --accent2:   #F5A623;
+      --bg:        #FAF6FB;
+      --card:      #FFFFFF;
+      --text:      #1E1529;
+      --muted:     #7A6A85;
+      --radius:    12px;
+
+      --l1: #27AE60;
+      --l2: #F5A623;
+      --l3: #2980B9;
+      --l4: #8E44AD;
+      --l5: #E74C3C;
+      --l6: #3D1B4E;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .logo .logo-e    { color: var(--accent); }
+    .logo .logo-dot  { color: var(--accent2); font-size: 1rem; margin-bottom: 10px; }
+    .logo .logo-rest { color: #fff; }
+    .header-tag {
+      background: var(--accent);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a0630 100%);
+      color: #fff;
+      text-align: center;
+      padding: 3.5rem 1.5rem 3rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: .6rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1rem;
+      opacity: .82;
+      max-width: 540px;
+      margin: 0 auto 1.6rem;
+    }
+    .meta-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .meta-badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: .82rem;
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      background: var(--primary);
+      padding: .6rem 2rem 1rem;
+      text-align: center;
+    }
+    .progress-label {
+      color: rgba(255,255,255,.7);
+      font-size: .78rem;
+      margin-bottom: 4px;
+    }
+    .progress-bar-outer {
+      background: rgba(255,255,255,.15);
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 10px;
+      transition: width .4s ease;
+      width: 0%;
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: 820px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+    }
+
+    /* ── Level section ── */
+    .level-section { margin-bottom: 2.8rem; }
+    .level-header {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      margin-bottom: 1.2rem;
+    }
+    .level-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .level-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .level-badge {
+      margin-left: auto;
+      font-size: .74rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    /* ── Question card ── */
+    .question-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border-left: 4px solid transparent;
+      transition: box-shadow .2s;
+    }
+    .question-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+
+    .question-top {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      margin-bottom: 1rem;
+    }
+    .q-number {
+      background: var(--primary);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .q-text {
+      font-size: .97rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .code-block {
+      background: #1e2b3c;
+      color: #e2e8f0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: .88rem;
+      padding: .7rem 1rem;
+      border-radius: 8px;
+      margin: .5rem 0 .8rem;
+      white-space: pre;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* ── Options ── */
+    .options { display: flex; flex-direction: column; gap: .5rem; }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .62rem .9rem;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      cursor: pointer;
+      transition: all .15s;
+      font-size: .92rem;
+    }
+    .option-label:hover { border-color: var(--accent); background: #fff7f3; }
+    .option-label input[type=radio] { display: none; }
+    .option-key {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid #cdd5df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: all .15s;
+    }
+
+    /* selected state */
+    .option-label.selected {
+      border-color: var(--primary);
+      background: #eef2fa;
+    }
+    .option-label.selected .option-key {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* correct / wrong feedback */
+    .option-label.correct {
+      border-color: #27AE60;
+      background: #edfaf3;
+    }
+    .option-label.correct .option-key {
+      background: #27AE60;
+      border-color: #27AE60;
+      color: #fff;
+    }
+    .option-label.wrong {
+      border-color: #E74C3C;
+      background: #fef0ef;
+    }
+    .option-label.wrong .option-key {
+      background: #E74C3C;
+      border-color: #E74C3C;
+      color: #fff;
+    }
+
+    /* card states */
+    .question-card.answered-correct { border-left-color: #27AE60; }
+    .question-card.answered-wrong   { border-left-color: #E74C3C; }
+
+    .feedback-msg {
+      margin-top: .7rem;
+      font-size: .82rem;
+      font-weight: 600;
+      display: none;
+    }
+    .feedback-msg.show { display: block; }
+    .feedback-msg.correct { color: #27AE60; }
+    .feedback-msg.wrong   { color: #E74C3C; }
+
+    /* ── Submit button ── */
+    .submit-wrap {
+      text-align: center;
+      margin: 2.5rem 0;
+    }
+    .btn-submit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: .85rem 3rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      letter-spacing: .5px;
+      box-shadow: 0 4px 16px rgba(232,24,109,.35);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(232,24,109,.45);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      background: #adb5c7;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Result banner ── */
+    #result-banner {
+      display: none;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 2rem 2rem 1.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(26,60,110,.3);
+    }
+    #result-banner.show { display: block; }
+    .result-score {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .result-out-of {
+      font-size: 1.1rem;
+      opacity: .75;
+      margin-bottom: .8rem;
+    }
+    .result-grade {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+    .result-msg { opacity: .8; font-size: .95rem; }
+    .level-scores {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      justify-content: center;
+      margin-top: 1.2rem;
+    }
+    .level-score-chip {
+      background: rgba(255,255,255,.12);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+
+    .btn-retry {
+      margin-top: 1.2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: .65rem 2rem;
+      font-size: .92rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .btn-retry:hover { opacity: .88; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.2rem;
+      background: var(--primary);
+      color: rgba(255,255,255,.55);
+      font-size: .78rem;
+    }
+    footer strong { color: var(--accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 540px) {
+      header { padding: 0 1rem; }
+      .question-card { padding: 1rem 1rem; }
+      .code-block { font-size: .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <img src="logo_1.PNG" alt="eduzah" style="height:44px; object-fit:contain;" />
+  </div>
+  <span class="header-tag">Programming Fundamentals Task 1</span>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Programming <span>Fundamentals</span> Task 1</h1>
+  <p>Test your knowledge across 6 levels — from basic output to advanced problem solving.</p>
+  <div class="meta-row">
+    <span class="meta-badge">📝 21 Questions</span>
+    <span class="meta-badge">🎯 6 Levels</span>
+    <span class="meta-badge">⏱ MCQ Format</span>
+    <span class="meta-badge">🧠 C++ Based</span>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-label" id="progress-label">0 / 21 answered</div>
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progress-bar"></div>
+  </div>
+</div>
+
+<!-- Main -->
+<main>
+  <div id="result-banner">
+    <div class="result-score" id="res-score">0</div>
+    <div class="result-out-of">out of 21</div>
+    <div class="result-grade" id="res-grade"></div>
+    <div class="result-msg" id="res-msg"></div>
+    <div class="level-scores" id="res-levels"></div>
+    <br/>
+    <button class="btn-retry" onclick="retryExam()">↺ Retry Exam</button>
+  </div>
+
+  <form id="exam-form"></form>
+
+  <div class="submit-wrap">
+    <button type="button" class="btn-submit" id="submit-btn" onclick="submitExam()" disabled>
+      Submit Exam
+    </button>
+  </div>
+</main>
+
+<footer>
+  &copy; 2026 <strong>eduzah</strong> &nbsp;|&nbsp; Programming Fundamentals Assessment
+</footer>
+
+<script>
+const questions = [
+  // Level 1 — Basics
+  {
+    level: 1,
+    text: "What is the output?",
+    code: 'cout << "Hello";',
+    options: ["Hello", '"Hello"', "Error", "Nothing"],
+    answer: 0
+  },
+  {
+    level: 1,
+    text: "What is the output?",
+    code: "cout << 5 + 3;",
+    options: ["8", "53", "Error", "5+3"],
+    answer: 0
+  },
+  {
+    level: 1,
+    text: "cout is used for:",
+    options: ["Input", "Output / Printing", "Loop", "Condition"],
+    answer: 1
+  },
+  {
+    level: 1,
+    text: "cin is used for:",
+    options: ["Printing", "Input", "Condition", "Loop"],
+    answer: 1
+  },
+
+  // Level 2 — Basic Logic
+  {
+    level: 2,
+    text: "What is the output?",
+    code: "cout << 2 + 3 * 4;",
+    options: ["20", "14", "24", "10"],
+    answer: 1
+  },
+  {
+    level: 2,
+    text: "What is the output?",
+    code: "int x = 5;\ncout << x;",
+    options: ["0", "5", "Error", "Nothing"],
+    answer: 1
+  },
+  {
+    level: 2,
+    text: "What is the output?",
+    code: "int x = 10;\nx = x + 2;\ncout << x;",
+    options: ["10", "12", "2", "Error"],
+    answer: 1
+  },
+  {
+    level: 2,
+    text: "To store a value we use:",
+    options: ["cout", "cin", "Variable", "Loop"],
+    answer: 2
+  },
+
+  // Level 3 — Trace Execution
+  {
+    level: 3,
+    text: "What is the output?",
+    code: "int x = 5;\nx = x + 3;\nx = x * 2;\ncout << x;",
+    options: ["8", "16", "10", "6"],
+    answer: 1
+  },
+  {
+    level: 3,
+    text: "What is the output?",
+    code: "int x = 10;\nint y = x;\ny = y + 5;\ncout << x;",
+    options: ["15", "10", "5", "Error"],
+    answer: 1
+  },
+  {
+    level: 3,
+    text: "What is the output?",
+    code: "int x = 4;\ncout << x + x * 2;",
+    options: ["12", "16", "8", "10"],
+    answer: 0
+  },
+  {
+    level: 3,
+    text: "What is the output?",
+    code: "int x = 8;\nx = x / 2;\nx = x - 1;\ncout << x;",
+    options: ["3", "4", "2", "7"],
+    answer: 0
+  },
+
+  // Level 4 — Debugging
+  {
+    level: 4,
+    text: "What is the problem?",
+    code: 'cout << "Hello"',
+    options: ["Missing ;", "Missing cout", "Wrong text", "No problem"],
+    answer: 0
+  },
+  {
+    level: 4,
+    text: "What is the problem?",
+    code: "int x;\ncin >> x;\ncout << y;",
+    options: ["x is not defined", "y is not defined", "cin is wrong", "No problem"],
+    answer: 1
+  },
+  {
+    level: 4,
+    text: "What is the problem?",
+    code: "int x = 5\ncout << x;",
+    options: ["Missing ;", "cout is wrong", "x is wrong", "No problem"],
+    answer: 0
+  },
+
+  // Level 5 — Problem Solving
+  {
+    level: 5,
+    text: "To check if a number is Even or Odd:",
+    options: ["Use a Loop", "Divide by 2 and check the remainder", "Add it", "Multiply it"],
+    answer: 1
+  },
+  {
+    level: 5,
+    text: "To print numbers from 1 to 5:",
+    options: ["Condition", "Loop", "Variable", "Input"],
+    answer: 1
+  },
+  {
+    level: 5,
+    text: "To add two numbers:",
+    options: ["Loop", "Condition", "Use the + operator", "Input only"],
+    answer: 2
+  },
+
+  // Level 6 — Advanced Thinking
+  {
+    level: 6,
+    text: "To find the largest of 3 numbers:",
+    options: ["Add them", "Compare them", "Print them", "Multiply them"],
+    answer: 1
+  },
+  {
+    level: 6,
+    text: "To find the largest number in a list:",
+    options: ["Choose randomly", "Iterate and compare", "Add them", "Print them"],
+    answer: 1
+  },
+  {
+    level: 6,
+    text: "To sum numbers from 1 to 100:",
+    options: ["Multiply them", "Loop from 1 to 100", "Condition", "Input"],
+    answer: 1
+  }
+];
+
+const levels = {
+  1: { label: "Level 1: Basics",            color: "#27AE60" },
+  2: { label: "Level 2: Basic Logic",       color: "#F1C40F" },
+  3: { label: "Level 3: Trace Execution",   color: "#2980B9" },
+  4: { label: "Level 4: Debugging",         color: "#8E44AD" },
+  5: { label: "Level 5: Problem Solving",   color: "#E74C3C" },
+  6: { label: "Level 6: Advanced Thinking", color: "#1A3C6E" }
+};
+
+const optionKeys = ["A", "B", "C", "D"];
+let answered = new Set();
+let submitted = false;
+
+function buildExam() {
+  const form = document.getElementById("exam-form");
+  form.innerHTML = "";
+
+  // Group by level
+  const byLevel = {};
+  questions.forEach((q, i) => {
+    if (!byLevel[q.level]) byLevel[q.level] = [];
+    byLevel[q.level].push({ ...q, index: i });
+  });
+
+  Object.entries(byLevel).forEach(([lvl, qs]) => {
+    const info = levels[lvl];
+    const sec = document.createElement("div");
+    sec.className = "level-section";
+
+    sec.innerHTML = `
+      <div class="level-header">
+        <div class="level-dot" style="background:${info.color}"></div>
+        <h2>${info.label}</h2>
+        <span class="level-badge" style="background:${info.color}">${qs.length} Qs</span>
+      </div>
+    `;
+
+    qs.forEach(q => {
+      const card = document.createElement("div");
+      card.className = "question-card";
+      card.id = `card-${q.index}`;
+
+      const codeBlock = q.code
+        ? `<div class="code-block">${escapeHtml(q.code)}</div>`
+        : "";
+
+      const opts = q.options.map((opt, oi) => `
+        <label class="option-label" id="opt-${q.index}-${oi}" onclick="selectOption(${q.index}, ${oi})">
+          <input type="radio" name="q${q.index}" value="${oi}" />
+          <span class="option-key">${optionKeys[oi]}</span>
+          <span>${opt}</span>
+        </label>
+      `).join("");
+
+      card.innerHTML = `
+        <div class="question-top">
+          <span class="q-number">Q${q.index + 1}</span>
+          <span class="q-text">${q.text}</span>
+        </div>
+        ${codeBlock}
+        <div class="options">${opts}</div>
+        <div class="feedback-msg" id="fb-${q.index}"></div>
+      `;
+
+      sec.appendChild(card);
+    });
+
+    form.appendChild(sec);
+  });
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function selectOption(qIndex, optIndex) {
+  if (submitted) return;
+
+  // Deselect all options for this question
+  questions[qIndex].options.forEach((_, oi) => {
+    document.getElementById(`opt-${qIndex}-${oi}`)?.classList.remove("selected");
+  });
+
+  document.getElementById(`opt-${qIndex}-${optIndex}`)?.classList.add("selected");
+  answered.add(qIndex);
+
+  updateProgress();
+  checkEnableSubmit();
+}
+
+function updateProgress() {
+  const total = questions.length;
+  const done = answered.size;
+  document.getElementById("progress-label").textContent = `${done} / ${total} answered`;
+  document.getElementById("progress-bar").style.width = `${(done / total) * 100}%`;
+}
+
+function checkEnableSubmit() {
+  document.getElementById("submit-btn").disabled = answered.size < questions.length;
+}
+
+function submitExam() {
+  if (submitted) return;
+  submitted = true;
+
+  document.getElementById("submit-btn").disabled = true;
+
+  let totalScore = 0;
+  const levelScores = {};
+
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const chosen = selected ? parseInt(selected.value) : -1;
+    const correct = q.answer;
+    const isCorrect = chosen === correct;
+
+    if (isCorrect) {
+      totalScore++;
+      levelScores[q.level] = (levelScores[q.level] || 0) + 1;
+    }
+
+    // Highlight options
+    q.options.forEach((_, oi) => {
+      const lbl = document.getElementById(`opt-${i}-${oi}`);
+      if (!lbl) return;
+      lbl.style.pointerEvents = "none";
+      if (oi === correct) lbl.classList.add("correct");
+      else if (oi === chosen && !isCorrect) lbl.classList.add("wrong");
+    });
+
+    // Card border
+    const card = document.getElementById(`card-${i}`);
+    if (card) {
+      card.classList.add(isCorrect ? "answered-correct" : "answered-wrong");
+    }
+
+    // Feedback message
+    const fb = document.getElementById(`fb-${i}`);
+    if (fb) {
+      fb.textContent = isCorrect
+        ? "✓ Correct!"
+        : `✗ Wrong — correct answer: ${optionKeys[correct]}. ${q.options[correct]}`;
+      fb.className = `feedback-msg show ${isCorrect ? "correct" : "wrong"}`;
+    }
+  });
+
+  showResult(totalScore, levelScores);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showResult(score, levelScores) {
+  const pct = Math.round((score / questions.length) * 100);
+  let grade, msg;
+
+  if (pct >= 90)      { grade = "Excellent 🏆"; msg = "Outstanding performance! You've mastered the fundamentals."; }
+  else if (pct >= 75) { grade = "Very Good ✅"; msg = "Great work! A little more practice and you'll be perfect."; }
+  else if (pct >= 60) { grade = "Good 👍";       msg = "Good effort! Review the topics you missed and try again."; }
+  else if (pct >= 40) { grade = "Fair ⚠️";       msg = "Keep practicing! Focus on the highlighted mistakes."; }
+  else                { grade = "Needs Work 📚"; msg = "Don't give up — revisit the material and try again!"; }
+
+  document.getElementById("res-score").textContent = score;
+  document.getElementById("res-grade").textContent = `${grade} — ${pct}%`;
+  document.getElementById("res-msg").textContent = msg;
+
+  const chips = Object.entries(levels).map(([lvl, info]) => {
+    const total = questions.filter(q => q.level == lvl).length;
+    const got = levelScores[lvl] || 0;
+    return `<span class="level-score-chip" style="border:1px solid ${info.color}40">${info.label.split(":")[1].trim()}: ${got}/${total}</span>`;
+  }).join("");
+  document.getElementById("res-levels").innerHTML = chips;
+
+  const banner = document.getElementById("result-banner");
+  banner.classList.add("show");
+}
+
+function retryExam() {
+  answered.clear();
+  submitted = false;
+  buildExam();
+  document.getElementById("result-banner").classList.remove("show");
+  document.getElementById("progress-bar").style.width = "0%";
+  document.getElementById("progress-label").textContent = "0 / 21 answered";
+  document.getElementById("submit-btn").disabled = true;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Init
+buildExam();
+</script>
+</body>
+</html>
